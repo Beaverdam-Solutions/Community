@@ -1,0 +1,32 @@
+# ===== CONTRACT D — Verdict (Steph -> Nick) =====
+# Steph grades the return against the SEALED criteria and emits the verdict.
+# The metrics here are BYPRODUCTS of grading — not a separate measurement
+# apparatus (swamp flag #3). On reject, the loop stays Steph<->Wyatt; Nick is
+# informed of state but not dragged into the build thrash.
+contract: verdict
+version: 1
+from: steph
+project: v13-v15-migration
+round: 1
+result: reject                     # pass | reject
+
+criteria_results:                  # revealed to Nick at governance-permitted granularity
+  - { id: data-integrity,  passed: true }
+  - { id: no-regression,   passed: false, summary: "3 of 14 modules fail smoke" }
+  - { id: idempotent-rerun, passed: true }
+hidden_probe_results:
+  - { id: custom-fields-preserved, passed: true }
+  - { id: scheduled-jobs-reregistered, passed: false, summary: "2 jobs missing" }
+
+metrics:                           # the only metrics we keep in v1
+  first_pass_yield: false          # did round 1 pass outright?
+  remediation_rounds: 1            # increments each reject
+  wall_time_min: 47
+
+disposition:
+  on_reject: "Steph reissues refined work-order; contained Wyatt loop; Nick not paged"
+  on_pass:
+    - "notify Nick: project clears the gate"
+    - "promote-eligibility review (generic vs proprietary) -> Roger (human gate)"
+
+ledger_ref: ../../.beaverdam/accountability/ledger.jsonl#evt-00004

@@ -1,0 +1,25 @@
+# ===== CONTRACT B' — Sealed Acceptance (Steph ONLY) =====
+# WYATT MUST NEVER READ THIS FILE. It is the blind grading rubric that makes the
+# gate meaningful — it defeats the self-certification failure mode that tangled
+# Senior. Enforced by convention now; by access control when the harness allows.
+contract: sealed-acceptance
+version: 1
+sealed: true
+visibility: steph-only
+project: v13-v15-migration
+
+criteria:
+  - id: data-integrity
+    test: "row counts per doctype match V13 +/- known migration deltas"
+    threshold: "0 unexplained deltas"
+  - id: no-regression
+    test: "smoke suite over modules in resources/used-modules.yml"
+    threshold: "100% pass"
+  - id: idempotent-rerun
+    test: "re-run migrate; second pass produces no further schema changes"
+    threshold: "clean"
+
+hidden_probes:               # things Wyatt is NOT told to check -> catches cutting corners
+  - "custom fields preserved across migration"
+  - "scheduled jobs re-registered after upgrade"
+  - "no V13-only deprecated API left referenced in custom apps"

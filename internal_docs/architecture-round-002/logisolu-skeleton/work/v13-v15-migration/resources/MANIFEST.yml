@@ -1,0 +1,17 @@
+# Level-4 resources Wyatt/Paco read DOWN into. Inventory only — large blobs
+# live out-of-tree and are referenced, never committed.
+contract: resource-manifest
+version: 1
+project: v13-v15-migration
+resources:
+  - id: v13-db-dump
+    kind: db-dump
+    ref: "external://logisolu-backups/v13/erpnext.sql.gz"   # not committed
+    sensitivity: proprietary
+  - id: site-config
+    kind: config
+    path: resources/site_config.json.example
+  - id: used-modules
+    kind: spec
+    path: resources/used-modules.yml
+    note: "the modules LogiSolu actually uses — scopes the no-regression check"

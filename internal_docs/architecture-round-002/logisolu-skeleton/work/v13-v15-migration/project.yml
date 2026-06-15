@@ -1,0 +1,43 @@
+# ===== CONTRACT A — Project Submission (Nick -> Steph) =====
+# Nick translates USER INTENT into ARCHITECTURE. Nick states WHAT and HOW-SPLIT.
+# Nick does NOT write acceptance criteria or tests — those are Steph's (blind).
+contract: project-submission
+version: 1
+project:
+  id: v13-v15-migration
+  level: 3                         # this directory IS the level-3 project
+  fork: logisolu
+  parent_intent: >
+    LogiSolu's production ERPNext runs on V13. Bring it to V15 with zero data
+    loss and no regression in the modules LogiSolu actually uses.
+  user_story: >
+    As LogiSolu ops, I need our V13 ERPNext upgraded to V15 on staging, proven
+    safe, before any production cutover.
+
+executors:                         # which personas, bound to which skill levels
+  - persona: wyatt
+    skills:                        # mounted READ-UP from the knowledge tree
+      L1: knowledge/wyatt          # persona root == general ERP consulting
+      L2: knowledge/wyatt/erpnext  # the product
+    charter: "app + data migration V13 -> V15"
+  - persona: paco
+    skills:
+      L1: knowledge/paco           # persona root == network consulting
+      L2: knowledge/paco/kvm-qemu  # the platform
+    charter: "staging VM + snapshot/rollback so Wyatt's run is reversible"
+
+partition:                         # Nick's job: how work splits & sequences
+  - step: paco provisions staging VM from V13 snapshot      # dependency first
+  - step: wyatt migrates app+data on staging
+  - coordination: "wyatt blocks until paco signals snapshot ready"
+
+resources:                         # level-4 inputs, mounted READ-DOWN
+  manifest: resources/MANIFEST.yml
+
+governance:
+  charter_ref: ../../.beaverdam/fork.yml
+  constraints:
+    - "no production cutover without a PASS verdict"
+    - "bespoke LogiSolu data is non-promotable (stays in-fork)"
+
+acceptance_criteria: SEALED        # <-- deliberately withheld; owned by Steph

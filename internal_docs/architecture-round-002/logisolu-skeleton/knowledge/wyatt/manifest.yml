@@ -1,0 +1,33 @@
+# Wyatt skill tree — VERSIONED KNOWLEDGE, mounted into projects read-only.
+# NOT physically nested above projects: projects REFERENCE these (Swamp Flag #1 —
+# canonical home: ../../../persona-team-and-qa-framework.md), so a fork never
+# drags a private copy of global knowledge and federation stays a clean merge.
+#
+# LEVEL == DIRECTORY DEPTH (lexical scoping):
+#   L1  general ERP consulting  = this persona-root's own files   -> wyatt/
+#   L2  a product               = each product subdirectory       -> wyatt/<product>/
+# Wyatt has ONE L1 (it is one kind of consultant) but MANY L2 products, so L1
+# lives at the root and products are named subdirs. Reading UP from a task means
+# reading each ANCESTOR's own files (L2 then L1) — never a sibling product's
+# branch (you inherit your ancestors, not their other children).
+contract: skill-manifest
+version: 1
+persona: wyatt
+levels:
+  L1:
+    name: erp-consulting
+    location: "."                 # wyatt/ root — Wyatt's baseline identity
+    origin: global                # pulled from beaverdam-central; read-only here
+  L2:
+    origin: global
+    products:
+      - name: erpnext
+        location: erpnext
+        proven_projects: erpnext/proven-projects
+        # ^ a generic L3 project, once Steph-passed and Roger-cleared, is
+        #   PROMOTED here and becomes reusable L2 knowledge for every fork.
+      # future siblings: odoo, netsuite ...
+# L3 (project) and L4 (task) do NOT live here — they live under work/.
+provenance:
+  global_revision: SET-ON-PULL
+  local_overlays: []              # bespoke LogiSolu knowledge here, marked non-promotable

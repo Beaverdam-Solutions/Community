@@ -1,0 +1,20 @@
+# Fork identity & governance binding (fork-level, charter-tied)
+contract: fork-identity
+version: 1
+fork:
+  id: logisolu
+  parent: beaverdam-central          # where promoted, non-proprietary PRs go
+  created: SET-ON-INIT               # stamp at clone time, not in template
+personas:
+  # Same-vendor for Round-002 v1. Gemini-as-Steph deferred (swamp flag #2).
+  nick:  { vendor: anthropic, role: "user-intent -> architecture" }
+  steph: { vendor: anthropic, role: "blind-criteria QA proxy / gate" }
+  wyatt: { vendor: anthropic, role: "ERP execution" }
+  paco:  { vendor: anthropic, role: "network/infra execution" }
+accountability:
+  ledger: .beaverdam/accountability/ledger.jsonl   # append-only, charter-tied
+  rule: "every contract hand-off and verdict appends one ledger event"
+promotion:
+  # The generic-vs-proprietary gate is a HUMAN(-in-Roger) decision (swamp flag #5).
+  default: proprietary               # nothing leaves the fork unless marked generic
+  reviewer: roger

@@ -1,0 +1,19 @@
+# ===== CONTRACT C — Work Product Return (Wyatt -> Steph) =====
+# Wyatt hands back. Self-report echoes the work-order's definition_of_done only.
+# Wyatt cannot self-certify against the sealed criteria — it has never seen them.
+contract: work-product-return
+version: 1
+from: wyatt
+task: v13-v15-migration#001
+branch: wyatt/v13-v15-migration-001
+round: 1
+product_dir: product/
+self_report:
+  done_claimed: true
+  done_checklist:
+    - { item: "bench migrate exit 0", ok: true }
+    - { item: "used-modules load",    ok: true }
+evidence:
+  - product/logs/migrate.log
+  - product/logs/module-load.log
+notes: "Migration completed; custom app patched for one renamed doctype."

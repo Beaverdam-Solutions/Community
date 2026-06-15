@@ -1,0 +1,38 @@
+# ===== CONTRACT B — Work Order (Steph -> Wyatt) =====
+# Derived by Steph from the submission MINUS the sealed acceptance. This file is
+# the COMPLETE world Wyatt is allowed to see. It defines the task as a concrete
+# task:session:branch (level 4) and the mounts. It states DONE in functional
+# terms but NEVER the tests (those stay sealed -> Wyatt cannot game them).
+contract: work-order
+version: 1
+issued_by: steph
+project: v13-v15-migration
+task:
+  id: v13-v15-migration#001
+  level: 4
+  session: SET-ON-INSTANTIATION        # task:session:branch identity
+  branch: wyatt/v13-v15-migration-001
+
+scope: "Migrate the V13 ERPNext app + data to V15 on the staging VM."
+
+mounts:
+  skills_read_up:                      # ancestors of the task, nearest level first
+    - { path: knowledge/wyatt/erpnext, level: L2, mode: ro }   # product
+    - { path: knowledge/wyatt,         level: L1, mode: ro }   # general consulting (root)
+  resources_read_down:                 # the 'read DOWN the branches' rule
+    - { path: resources/, mode: ro }
+  product_dir: { path: product/, mode: rw }   # Wyatt writes ONLY here
+
+definition_of_done:                    # functional intent, NOT acceptance tests
+  - "bench --site staging migrate completes with exit 0"
+  - "the modules in resources/used-modules.yml load without error"
+  - "Wyatt records evidence under product/logs/"
+
+handback: return.yml                   # how Wyatt submits for grading
+
+loop_protocol:
+  # The remediation loop is CONTAINED between Steph and Wyatt. Build/CI failures
+  # NEVER page Nick (swamp flag #4). Steph alone decides escalation.
+  on_reject: "Steph reissues a refined work-order; Wyatt iterates on same branch"
+  escalation_to_nick: "only on Steph's explicit signal (e.g. spec contradiction)"
+  max_rounds: null                     # Steph judges; no silent cap

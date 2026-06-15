@@ -1,0 +1,21 @@
+# Paco skill tree — same shape as Wyatt's, different domain.
+# LEVEL == DIRECTORY DEPTH:
+#   L1  network consulting = persona-root's own files -> paco/
+#   L2  a product/platform = each subdirectory        -> paco/<product>/
+contract: skill-manifest
+version: 1
+persona: paco
+levels:
+  L1:
+    name: network-consulting
+    location: "."
+    origin: global
+  L2:
+    origin: global
+    products:
+      - name: kvm-qemu
+        location: kvm-qemu
+      # future siblings: heroku, contabo-vps ...
+provenance:
+  global_revision: SET-ON-PULL
+  local_overlays: []
